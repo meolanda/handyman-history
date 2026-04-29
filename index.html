@@ -342,14 +342,19 @@ function hi(text, q) {
 
 function parseDate(s) {
   if (!s) return null;
-  // formats: "3/ม.ค./2025" or "3/1/25" or ISO
-  const thMonths = {ม:0,กพ:1,มีค:2,เมย:3,พค:4,มิย:5,กค:6,สค:7,กย:8,ตค:9,พย:10,ธค:11};
-  const m = s.match(/(\d{1,2})\/([\w.]+)\/(\d{2,4})/);
+  // Thai month abbreviations → 0-based index
+  const thMonths = {
+    'มค':0,'กพ':1,'มีค':2,'มนาค':2,'เมย':3,'พค':4,'มิย':5,
+    'กค':6,'สค':7,'กย':8,'ตค':9,'พย':10,'ธค':11
+  };
+  const m = s.match(/(\d{1,2})\/([\u0E00-\u0E7F.\w]+)\/(\d{2,4})/);
   if (m) {
     let [,d,mo,y] = m;
     if (y.length===2) y = '20'+y;
-    const thKey = mo.replace(/\./g,'').replace(/[ัิีึื่้็ํ๊๋]/g,'').slice(0,2);
-    const mIdx = thMonths[thKey] ?? (parseInt(mo)-1);
+    // ลบจุด ลบสระ เหลือแต่พยัญชนะ
+    const key = mo.replace(/\./g,'').replace(/[\u0E30-\u0E4E\u0E50-\u0E59]/g,'');
+    // หา key ที่ตรงกัน
+    const mIdx = thMonths[key] ?? thMonths[key.slice(0,2)] ?? thMonths[key.slice(0,3)] ?? (parseInt(mo)-1);
     return new Date(+y, isNaN(mIdx)?0:mIdx, +d);
   }
   const d = new Date(s);
