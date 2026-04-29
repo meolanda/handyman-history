@@ -342,20 +342,21 @@ function hi(text, q) {
 
 function parseDate(s) {
   if (!s) return null;
-  // Thai month abbreviations → 0-based index
-  const thMonths = {
-    'มค':0,'กพ':1,'มีค':2,'มนาค':2,'เมย':3,'พค':4,'มิย':5,
+  // ลบจุดออก แล้ว map ตรงๆ
+  const TH = {
+    'มค':0,'กพ':1,'มีค':2,'เมย':3,'พค':4,'มิย':5,
     'กค':6,'สค':7,'กย':8,'ตค':9,'พย':10,'ธค':11
   };
-  const m = s.match(/(\d{1,2})\/([\u0E00-\u0E7F.\w]+)\/(\d{2,4})/);
+  const m = s.match(/(\d{1,2})\/([\u0E00-\u0E7F.]+)\/(\d{2,4})/);
   if (m) {
     let [,d,mo,y] = m;
-    if (y.length===2) y = '20'+y;
-    // ลบจุด ลบสระ เหลือแต่พยัญชนะ
-    const key = mo.replace(/\./g,'').replace(/[\u0E30-\u0E4E\u0E50-\u0E59]/g,'');
-    // หา key ที่ตรงกัน
-    const mIdx = thMonths[key] ?? thMonths[key.slice(0,2)] ?? thMonths[key.slice(0,3)] ?? (parseInt(mo)-1);
-    return new Date(+y, isNaN(mIdx)?0:mIdx, +d);
+    const key = mo.replace(/\./g,''); // เม.ย. → เมย
+    let mIdx = TH[key];
+    if (mIdx === undefined) mIdx = parseInt(mo) - 1; // fallback เลข
+    let yr = parseInt(y);
+    if (yr.toString().length === 2) yr += 2000;
+    if (yr > 2400) yr -= 543; // แปลง พ.ศ. → ค.ศ.
+    return new Date(yr, isNaN(mIdx)?0:mIdx, parseInt(d));
   }
   const d = new Date(s);
   return isNaN(d) ? null : d;
