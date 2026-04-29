@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ประวัติการบริการ — Handyman2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:   #2563EB;
+  --blue-d: #1D4ED8;
+  --blue-l: #EFF6FF;
+  --sky:    #0EA5E9;
+  --green:  #10B981;
+  --amber:  #F59E0B;
+  --red:    #EF4444;
+  --gray:   #6B7280;
+  --bg:     #F3F4F6;
+  --card:   #FFFFFF;
+  --border: #E5E7EB;
+  --text:   #111827;
+  --text2:  #374151;
+  --muted:  #9CA3AF;
+  --r:      12px;
+  --shadow: 0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+  --font:   'Sarabun', sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+
+/* ── HEADER ── */
+#hdr{
+  background:linear-gradient(135deg,#1E3A8A 0%,#2563EB 55%,#0EA5E9 100%);
+  color:#fff;padding:16px 16px 14px;
+  position:sticky;top:0;z-index:50;
+  box-shadow:0 2px 8px rgba(30,58,138,.35);
+}
+.hdr-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.hdr-icon{width:36px;height:36px;background:rgba(255,255,255,.18);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hdr-title{font-size:18px;font-weight:700;line-height:1.25}
+.hdr-sub{font-size:12px;opacity:.8;margin-top:1px}
+.refresh-btn{margin-left:auto;background:rgba(255,255,255,.18);border:none;border-radius:8px;color:#fff;cursor:pointer;padding:7px 10px;font-size:18px;line-height:1;flex-shrink:0;transition:background .15s}
+.refresh-btn:hover{background:rgba(255,255,255,.28)}
+
+/* Search */
+.search-wrap{position:relative}
+.search-wrap input{
+  width:100%;padding:11px 42px 11px 42px;
+  font-family:var(--font);font-size:16px;
+  background:rgba(255,255,255,.93);border:2px solid transparent;border-radius:var(--r);
+  color:var(--text);outline:none;transition:all .2s;-webkit-appearance:none;
+}
+.search-wrap input::placeholder{color:var(--muted)}
+.search-wrap input:focus{border-color:rgba(255,255,255,.7);box-shadow:0 0 0 3px rgba(255,255,255,.2)}
+.search-wrap .si{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:17px;pointer-events:none}
+.clear-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  background:var(--muted);border:none;border-radius:50%;width:22px;height:22px;
+  color:#fff;cursor:pointer;font-size:13px;display:none;align-items:center;justify-content:center}
+.clear-btn.on{display:flex}
+
+/* ── FILTER CHIPS ── */
+#chips{
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:9px 14px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;
+}
+#chips::-webkit-scrollbar{display:none}
+.chip{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:5px 13px;border-radius:50px;border:1.5px solid var(--border);
+  background:#fff;font-size:13px;cursor:pointer;white-space:nowrap;
+  color:var(--gray);transition:all .15s;font-family:var(--font);
+}
+.chip:hover{border-color:var(--blue);color:var(--blue)}
+.chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.chip#advBtn.on{background:var(--amber);border-color:var(--amber);color:#fff}
+
+/* ── ADV FILTER ── */
+#advBox{
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:12px 14px;display:none;gap:8px;flex-wrap:wrap;
+}
+#advBox.on{display:flex}
+#advBox select,#advBox input[type=date]{
+  flex:1;min-width:140px;padding:8px 10px;
+  border-radius:8px;border:1.5px solid var(--border);
+  font-size:13px;font-family:var(--font);color:var(--text);background:#fff;outline:none;
+}
+#advBox select:focus,#advBox input[type=date]:focus{border-color:var(--blue)}
+.adv-label{width:100%;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+
+/* ── STATS ── */
+#stats{
+  display:flex;gap:10px;padding:12px 14px;overflow-x:auto;scrollbar-width:none;
+}
+#stats::-webkit-scrollbar{display:none}
+.stat{
+  background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);
+  padding:10px 14px;min-width:100px;text-align:center;flex-shrink:0;
+}
+.stat .v{font-size:22px;font-weight:700;color:var(--blue)}
+.stat .l{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ── RESULT BAR ── */
+#rbar{padding:8px 14px;display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--gray)}
+#rbar strong{color:var(--text)}
+.vtoggle{display:flex;gap:4px}
+.vbtn{padding:4px 10px;border-radius:7px;border:1.5px solid var(--border);background:#fff;cursor:pointer;font-size:13px;color:var(--gray);transition:all .15s}
+.vbtn.on{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* ── CARD LIST ── */
+#cardList{padding:0 12px 90px;display:flex;flex-direction:column;gap:10px}
+
+/* ── CARD ── */
+.jcard{
+  background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);
+  border:1px solid var(--border);border-left:4px solid var(--border);
+  overflow:hidden;cursor:pointer;
+  animation:fadeUp .22s ease both;
+}
+.jcard.s-จบ{border-left-color:var(--green)}
+.jcard.s-ไม่จบ{border-left-color:var(--amber)}
+.jcard.s-ยกเลิก{border-left-color:var(--red)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.jcard:active{transform:scale(.99)}
+
+.jcard-top{padding:12px 14px 0;display:flex;gap:8px;align-items:flex-start}
+.jcard-chips{flex:1;display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.jcard-date{font-size:11px;background:var(--blue-l);color:var(--blue);padding:2px 8px;border-radius:20px;font-weight:600;white-space:nowrap}
+.jcard-group{font-size:11px;background:#F3F4F6;color:var(--gray);padding:2px 8px;border-radius:20px;font-weight:600}
+.jcard-name{padding:6px 14px 0;font-size:16px;font-weight:700;line-height:1.3;word-break:break-word}
+
+.jcard-rows{padding:6px 14px 10px;display:flex;flex-direction:column;gap:4px}
+.jrow{display:flex;gap:6px;font-size:13px;align-items:flex-start}
+.jrow .ico{font-size:13px;flex-shrink:0;margin-top:1px}
+.jrow .txt{line-height:1.45;word-break:break-word;color:var(--text2)}
+.jrow .txt.dim{color:var(--gray)}
+
+.jcard-foot{
+  padding:8px 14px;background:#F9FAFB;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+}
+.sbadge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.sb-green{background:#D1FAE5;color:#065F46}
+.sb-amber{background:#FEF3C7;color:#92400E}
+.sb-red  {background:#FEE2E2;color:#991B1B}
+.sb-blue {background:#DBEAFE;color:#1E40AF}
+.sb-gray {background:#F3F4F6;color:#6B7280}
+.rev{font-weight:700;font-size:14px;color:var(--blue)}
+
+/* ── TABLE VIEW ── */
+#tableWrap{padding:0 12px 90px;display:none;overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);font-size:13px;min-width:800px}
+th{background:var(--blue);color:#fff;padding:11px 13px;text-align:left;font-weight:600;white-space:nowrap}
+td{padding:9px 13px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#F8FAFC;cursor:pointer}
+
+/* ── MODAL ── */
+#moverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:flex-end;justify-content:center}
+#moverlay.on{display:flex}
+#modal{
+  background:var(--card);border-radius:20px 20px 0 0;
+  width:100%;max-width:680px;max-height:90vh;overflow-y:auto;
+  animation:slideUp .25s ease;
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mhandle{text-align:center;padding:12px 0 4px}
+.mhandle span{display:inline-block;width:36px;height:4px;background:var(--border);border-radius:2px}
+.mhdr{padding:8px 20px 16px;border-bottom:1px solid var(--border)}
+.mhdr h2{font-size:17px;font-weight:700}
+.mhdr .msub{font-size:13px;color:var(--gray);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.mbody{padding:16px 20px 32px;display:flex;flex-direction:column;gap:12px}
+.msec{background:var(--bg);border-radius:10px;padding:12px 14px}
+.msec h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--blue);margin-bottom:8px}
+.mrow{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:14px}
+.mrow:last-child{border-bottom:none}
+.mk{color:var(--gray);min-width:130px;flex-shrink:0;line-height:1.4}
+.mv{font-weight:500;flex:1;line-height:1.4;word-break:break-word}
+
+/* units list inside modal */
+.unit-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.unit-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 12px}
+.unit-name{font-size:13px;font-weight:600;margin-bottom:2px}
+.unit-sub{font-size:12px;color:var(--gray);line-height:1.4}
+.unit-detail{font-size:12px;color:var(--text2);margin-top:4px;padding-top:4px;border-top:1px solid var(--border);line-height:1.5}
+
+/* highlight */
+mark{background:#FEF08A;color:#78350F;border-radius:2px;padding:0 1px;font-weight:700}
+
+/* ── STATES ── */
+.loading,.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;gap:14px;color:var(--gray);text-align:center}
+.spin{width:44px;height:44px;border:4px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty .eico{font-size:48px}
+
+@media(min-width:640px){
+  #hdr,#chips,#advBox,#stats,#rbar,#cardList,#tableWrap{padding-left:24px;padding-right:24px}
+  #moverlay{align-items:center}
+  #modal{border-radius:20px;max-height:85vh}
+}
+@media(min-width:1024px){
+  #cardList,#tableWrap{max-width:900px;margin:0 auto}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="hdr">
+  <div class="hdr-top">
+    <div class="hdr-icon">🔧</div>
+    <div>
+      <div class="hdr-title">ประวัติการบริการ</div>
+      <div class="hdr-sub">Handyman2025 — ข้อมูลการบริการ</div>
+    </div>
+    <button class="refresh-btn" id="refreshBtn" title="รีเฟรชข้อมูล">↻</button>
+  </div>
+  <div class="search-wrap">
+    <span class="si">🔎</span>
+    <input id="searchInput" type="search" placeholder="ค้นหา ลูกค้า, ช่าง, อาการ, วันที่..." autocomplete="off" autocorrect="off" spellcheck="false">
+    <button class="clear-btn" id="clearBtn">✕</button>
+  </div>
+</div>
+
+<!-- FILTER CHIPS -->
+<div id="chips">
+  <button class="chip on" data-f="all">ทั้งหมด</button>
+  <button class="chip" data-f="จบ">✅ จบแล้ว</button>
+  <button class="chip" data-f="ไม่จบ">⏳ ยังไม่จบ</button>
+  <button class="chip" data-f="pm">🛠 PM</button>
+  <button class="chip" data-f="ซ่อม">🔧 ซ่อม</button>
+  <button class="chip" data-f="ติดตั้ง">⚙️ ติดตั้ง</button>
+  <button class="chip" id="advBtn">🎛 ตัวกรอง</button>
+</div>
+
+<!-- ADV FILTER -->
+<div id="advBox">
+  <div class="adv-label">กรองเพิ่มเติม</div>
+  <input type="date" id="fDateFrom" title="จากวันที่">
+  <input type="date" id="fDateTo" title="ถึงวันที่">
+  <select id="fGroup"><option value="">กลุ่มลูกค้า (ทั้งหมด)</option></select>
+  <select id="fTech"><option value="">ช่างผู้ดูแล (ทั้งหมด)</option></select>
+  <select id="fBill"><option value="">สถานะใบเก็บเงิน (ทั้งหมด)</option></select>
+</div>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="stat"><div class="v" id="sTotal">—</div><div class="l">งานทั้งหมด</div></div>
+  <div class="stat"><div class="v" id="sDone" style="color:var(--green)">—</div><div class="l">จบแล้ว</div></div>
+  <div class="stat"><div class="v" id="sPend" style="color:var(--amber)">—</div><div class="l">ยังค้าง</div></div>
+  <div class="stat"><div class="v" id="sRev">—</div><div class="l">รายได้ (บ.)</div></div>
+</div>
+
+<!-- RESULT BAR -->
+<div id="rbar">
+  <span id="rcount">กำลังโหลด...</span>
+  <div class="vtoggle">
+    <button class="vbtn on" id="vCard">☰</button>
+    <button class="vbtn" id="vTable">⊞</button>
+  </div>
+</div>
+
+<!-- CARD LIST -->
+<div id="cardList">
+  <div class="loading"><div class="spin"></div><span>กำลังโหลดข้อมูล...</span></div>
+</div>
+
+<!-- TABLE VIEW -->
+<div id="tableWrap">
+  <table>
+    <thead>
+      <tr>
+        <th>วันที่</th><th>ลูกค้า</th><th>รายการบริการ</th>
+        <th>สถานที่</th><th>ยี่ห้อ-รุ่น</th>
+        <th>ช่างผู้ดูแล</th><th>สถานะ</th><th style="text-align:right">รายได้ (บ.)</th>
+      </tr>
+    </thead>
+    <tbody id="tBody"></tbody>
+  </table>
+</div>
+
+<!-- DETAIL MODAL -->
+<div id="moverlay">
+  <div id="modal">
+    <div class="mhandle"><span></span></div>
+    <div class="mhdr">
+      <h2 id="mTitle"></h2>
+      <div class="msub" id="mSub"></div>
+    </div>
+    <div class="mbody" id="mBody"></div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ── CONFIG ──────────────────────────────────────────────
+const SID  = '1iAM73J1L1Vw-GGFjMfSxDxS2OAVTnIfDUB2TlJvJg1g';
+const SNAME = 'ข้อมูลการบริการ';
+
+// Column header names (ตามชีท)
+const H = {
+  DATE:'วันที่', CUSTOMER:'ลูกค้า', GROUP:'กลุ่มลูกค้า', CTYPE:'ประเภทลูกค้า',
+  PROBLEM:'อาการที่เสีย', SERVICE:'รายการบริการ', STYPE:'ประเภทบริการ',
+  LOCATION:'สถานที่หน้างาน', BRAND:'ยี่ห้อ-รุ่น', BTU:'BTU',
+  INSTALL:'สถานที่ที่ติดตั้ง', DETAIL:'รายละเอียดเข้าทำงาน', CC:'CC',
+  TECH:'ช่างผู้ดูแล (1)', A1:'ผู้ช่วยช่าง (1)', A2:'ผู้ช่วยช่าง (2)', A3:'ผู้ช่วยช่าง (3)',
+  STATUS:'สถานะงาน', SUMMARY:'สรุปงานอาการเสีย และ หมายเหตุ',
+  NEXT:'งานที่ต้องทำต่อ', BILL:'สถานะใบเก็บเงิน', QUOTENO:'Quotation NO.',
+  WARRANTY:'เงื่อนไขการรับประกัน (เดือน)', WEXP:'วันที่หมดอายุการรับประกัน',
+  NEXTMO:'บริการอีกครั้งใน (เดือน)', NEXTDATE:'วันที่ต้องบริการอีกครั้ง',
+  REVENUE:'รายได้จากการบริการ'
+};
+
+// Fields ที่ต่างกันต่อ unit (แอร์แต่ละตัว)
+const UNIT_FIELDS = [H.BRAND, H.BTU, H.INSTALL, H.SERVICE, H.SUMMARY, H.QUOTENO];
+const TECH_FIELDS = [H.TECH, H.A1, H.A2, H.A3];
+
+// ── STATE ────────────────────────────────────────────────
+let allJobs = [], filteredJobs = [], searchIdx = [];
+let activeFilter = 'all', viewMode = 'card';
+let debTimer = null;
+
+// ── UTILS ─────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const esc = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const norm = s => String(s??'').normalize('NFC').toLowerCase();
+
+function hi(text, q) {
+  if (!q || !text) return esc(text);
+  const e = esc(text), sq = esc(q).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  try { return e.replace(new RegExp('('+sq+')','gi'),'<mark>$1</mark>'); } catch(_){return e;}
+}
+
+function parseDate(s) {
+  if (!s) return null;
+  // formats: "3/ม.ค./2025" or "3/1/25" or ISO
+  const thMonths = {ม:0,กพ:1,มีค:2,เมย:3,พค:4,มิย:5,กค:6,สค:7,กย:8,ตค:9,พย:10,ธค:11};
+  const m = s.match(/(\d{1,2})\/([\w.]+)\/(\d{2,4})/);
+  if (m) {
+    let [,d,mo,y] = m;
+    if (y.length===2) y = '20'+y;
+    const thKey = mo.replace(/\./g,'').replace(/[ัิีึื่้็ํ๊๋]/g,'').slice(0,2);
+    const mIdx = thMonths[thKey] ?? (parseInt(mo)-1);
+    return new Date(+y, isNaN(mIdx)?0:mIdx, +d);
+  }
+  const d = new Date(s);
+  return isNaN(d) ? null : d;
+}
+
+function fmtDate(s) {
+  const d = parseDate(s);
+  if (!d) return s||'—';
+  return d.toLocaleDateString('th-TH',{year:'numeric',month:'short',day:'numeric'});
+}
+
+function fmtRev(s) {
+  const n = parseFloat(String(s||'').replace(/[^0-9.]/g,''));
+  if (isNaN(n)||n===0) return '';
+  return n.toLocaleString('th-TH',{maximumFractionDigits:0});
+}
+
+function numAbbr(n) {
+  if (n>=1e6) return (n/1e6).toFixed(1)+'M';
+  if (n>=1e3) return (n/1e3).toFixed(0)+'K';
+  return n.toFixed(0);
+}
+
+function statusBadge(s) {
+  const t = String(s||'');
+  if (t==='จบ'||t.includes('จบ')&&!t.includes('ไม่')) return `<span class="sbadge sb-green">✅ ${esc(t)}</span>`;
+  if (t.includes('ไม่จบ')||t.includes('ค้าง')) return `<span class="sbadge sb-amber">⏳ ${esc(t)}</span>`;
+  if (t.includes('ยกเลิก')) return `<span class="sbadge sb-red">❌ ${esc(t)}</span>`;
+  if (t.includes('รอ')) return `<span class="sbadge sb-blue">🕐 ${esc(t)}</span>`;
+  return t ? `<span class="sbadge sb-gray">${esc(t)}</span>` : `<span class="sbadge sb-gray">—</span>`;
+}
+
+function sClass(s) {
+  const t = String(s||'');
+  if (t==='จบ'||t.includes('จบ')&&!t.includes('ไม่')) return 's-จบ';
+  if (t.includes('ไม่จบ')||t.includes('ค้าง')) return 's-ไม่จบ';
+  if (t.includes('ยกเลิก')) return 's-ยกเลิก';
+  return '';
+}
+
+// ── CSV PARSER ────────────────────────────────────────────
+function parseCSV(txt) {
+  const rows=[]; let row=[], cell='', inQ=false;
+  for (let i=0;i<txt.length;i++){
+    const c=txt[i];
+    if(c==='"'){if(inQ&&txt[i+1]==='"'){cell+='"';i++;}else inQ=!inQ;}
+    else if(c===','&&!inQ){row.push(cell.trim());cell='';}
+    else if((c==='\n'||c==='\r')&&!inQ){
+      if(c==='\r'&&txt[i+1]==='\n')i++;
+      row.push(cell.trim());cell='';
+      if(row.some(x=>x))rows.push(row);
+      row=[];
+    } else cell+=c;
+  }
+  if(row.length)rows.push(row);
+  return rows;
+}
+
+// ── GROUP ROWS → JOBS ─────────────────────────────────────
+function groupJobs(rows) {
+  const map=new Map(), order=[];
+  rows.forEach(row => {
+    const key = (row[H.DATE]||'')+'|'+(row[H.CUSTOMER]||'');
+    if(!map.has(key)){
+      const job={};
+      Object.keys(row).forEach(f=>{
+        if(!UNIT_FIELDS.includes(f)&&!TECH_FIELDS.includes(f)) job[f]=row[f];
+      });
+      job._units=[]; job._techSet=new Set();
+      map.set(key,job); order.push(key);
+    }
+    const job=map.get(key);
+    TECH_FIELDS.forEach(f=>{ const v=(row[f]||'').trim(); if(v&&v!=='-') job._techSet.add(v); });
+    const unit={};
+    UNIT_FIELDS.forEach(f=>{ unit[f]=row[f]||''; });
+    if(UNIT_FIELDS.some(f=>unit[f])) job._units.push(unit);
+  });
+  return order.map(k=>{
+    const j=map.get(k);
+    j._techs=[...j._techSet]; delete j._techSet;
+    return j;
+  });
+}
+
+// ── FETCH DATA ────────────────────────────────────────────
+async function fetchData() {
+  const url = `https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SNAME)}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('HTTP '+res.status);
+  const txt = await res.text();
+  const rows = parseCSV(txt);
+  if (rows.length < 2) return [];
+  const headers = rows[0];
+  const data = rows.slice(1).map(row => {
+    const obj={};
+    headers.forEach((h,i) => obj[h] = row[i]||'');
+    return obj;
+  });
+  // sort newest first
+  data.sort((a,b) => {
+    const da=parseDate(a[H.DATE]), db=parseDate(b[H.DATE]);
+    return (db?.getTime()||0)-(da?.getTime()||0);
+  });
+  return data;
+}
+
+// ── POPULATE DROPDOWNS ────────────────────────────────────
+function populateDrop(jobs) {
+  const groups=[...new Set(jobs.map(j=>j[H.GROUP]).filter(Boolean))].sort();
+  const techs =[...new Set(jobs.flatMap(j=>j._techs).filter(Boolean))].sort();
+  const bills =[...new Set(jobs.map(j=>j[H.BILL]).filter(Boolean))].sort();
+
+  const gs=$('fGroup'), ts=$('fTech'), bs=$('fBill');
+  groups.forEach(v=>gs.innerHTML+=`<option value="${esc(v)}">${esc(v)}</option>`);
+  techs.forEach(v=>ts.innerHTML+=`<option value="${esc(v)}">${esc(v)}</option>`);
+  bills.forEach(v=>bs.innerHTML+=`<option value="${esc(v)}">${esc(v)}</option>`);
+}
+
+// ── FILTER ────────────────────────────────────────────────
+function applyFilter() {
+  const q    = norm($('searchInput').value);
+  const dfrom= $('fDateFrom').value;
+  const dto  = $('fDateTo').value;
+  const grp  = $('fGroup').value;
+  const tech = $('fTech').value;
+  const bill = $('fBill').value;
+
+  filteredJobs = allJobs.filter((j,i) => {
+    // chip
+    if (activeFilter==='จบ') { const s=norm(j[H.STATUS]); if(!s.includes('จบ')||s.includes('ไม่จบ')) return false; }
+    if (activeFilter==='ไม่จบ') { const s=norm(j[H.STATUS]); if(s.includes('จบ')&&!s.includes('ไม่จบ')) return false; }
+    if (activeFilter==='pm') { const sv=norm((j[H.SERVICE]||'')+(j[H.STYPE]||'')); if(!sv.includes('pm')&&!sv.includes('preventive')) return false; }
+    if (activeFilter==='ซ่อม') { const sv=norm((j[H.SERVICE]||'')+(j[H.STYPE]||'')); if(!sv.includes('ซ่อม')&&!sv.includes('repair')) return false; }
+    if (activeFilter==='ติดตั้ง') { const sv=norm((j[H.SERVICE]||'')+(j[H.STYPE]||'')); if(!sv.includes('ติดตั้ง')&&!sv.includes('install')) return false; }
+    // search
+    if (q && !searchIdx[i].includes(q)) return false;
+    // date
+    if (dfrom||dto) {
+      const d=parseDate(j[H.DATE]);
+      if (d) { if(dfrom&&d<new Date(dfrom)) return false; if(dto&&d>new Date(dto+'T23:59:59')) return false; }
+    }
+    if (grp  && j[H.GROUP]!==grp) return false;
+    if (tech && !j._techs.includes(tech)) return false;
+    if (bill && j[H.BILL]!==bill) return false;
+    return true;
+  });
+
+  updateStats();
+  if (viewMode==='card') renderCards(); else renderTable();
+  const q2 = $('searchInput').value;
+  $('rcount').innerHTML = `แสดง <strong>${filteredJobs.length.toLocaleString()}</strong> รายการ จาก ${allJobs.length.toLocaleString()}`;
+}
+
+// ── STATS ─────────────────────────────────────────────────
+function updateStats() {
+  const done = filteredJobs.filter(j=>{ const s=norm(j[H.STATUS]); return s.includes('จบ')&&!s.includes('ไม่จบ'); }).length;
+  const rev  = filteredJobs.reduce((sum,j)=>{ const n=parseFloat(String(j[H.REVENUE]||'').replace(/[^0-9.]/g,'')); return sum+(isNaN(n)?0:n); },0);
+  $('sTotal').textContent = filteredJobs.length.toLocaleString();
+  $('sDone').textContent  = done.toLocaleString();
+  $('sPend').textContent  = (filteredJobs.length-done).toLocaleString();
+  $('sRev').textContent   = rev>0 ? numAbbr(rev) : '—';
+}
+
+// ── RENDER CARDS ─────────────────────────────────────────
+function renderCards() {
+  const c = $('cardList');
+  if (!filteredJobs.length) {
+    c.innerHTML = `<div class="empty"><div class="eico">📭</div><div>ไม่พบข้อมูล</div></div>`;
+    return;
+  }
+  const q = $('searchInput').value;
+  const CAP=300;
+  const data = filteredJobs.length>CAP ? filteredJobs.slice(0,CAP) : filteredJobs;
+  let html = data.map((j,idx)=>{
+    const techs = j._techs.length ? j._techs.join(', ') : (j[H.TECH]||'');
+    const rev   = fmtRev(j[H.REVENUE]);
+    const unitCount = j._units.length;
+    return `<div class="jcard ${sClass(j[H.STATUS])}" onclick="openModal(${filteredJobs.indexOf(j)})">
+      <div class="jcard-top">
+        <div class="jcard-chips">
+          ${j[H.DATE]?`<span class="jcard-date">📅 ${hi(j[H.DATE],q)}</span>`:''}
+          ${j[H.GROUP]?`<span class="jcard-group">${hi(j[H.GROUP],q)}</span>`:''}
+        </div>
+      </div>
+      <div class="jcard-name">🏢 ${hi(j[H.CUSTOMER]||'—',q)}</div>
+      <div class="jcard-rows">
+        ${j[H.PROBLEM]?`<div class="jrow"><span class="ico">⚠️</span><span class="txt">${hi(j[H.PROBLEM],q)}</span></div>`:''}
+        ${j[H.SERVICE]||j[H.STYPE]?`<div class="jrow"><span class="ico">🔩</span><span class="txt">${hi(j[H.SERVICE]||j[H.STYPE],q)}</span></div>`:''}
+        ${j[H.LOCATION]?`<div class="jrow"><span class="ico">📍</span><span class="txt dim">${hi(j[H.LOCATION],q)}</span></div>`:''}
+        ${techs?`<div class="jrow"><span class="ico">👷</span><span class="txt dim">ช่าง: ${hi(techs,q)}${unitCount>1?' · '+unitCount+' เครื่อง':''}</span></div>`:''}
+      </div>
+      <div class="jcard-foot">
+        ${statusBadge(j[H.STATUS])}
+        ${rev?`<span class="rev">${rev} บ.</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  if (filteredJobs.length>CAP) html+=`<div style="text-align:center;padding:14px;font-size:13px;color:var(--muted)">⚠️ แสดง ${CAP} รายการแรก — กรุณาใช้ค้นหาเพื่อกรอง</div>`;
+  c.innerHTML = html;
+}
+
+// ── RENDER TABLE ─────────────────────────────────────────
+function renderTable() {
+  const tb = $('tBody');
+  if (!filteredJobs.length) {
+    tb.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--muted)">ไม่พบข้อมูล</td></tr>`;
+    return;
+  }
+  const q = $('searchInput').value;
+  tb.innerHTML = filteredJobs.slice(0,300).map((j,idx) => `
+    <tr onclick="openModal(${filteredJobs.indexOf(j)})">
+      <td style="white-space:nowrap">${hi(fmtDate(j[H.DATE]),q)}</td>
+      <td>${hi(j[H.CUSTOMER]||'—',q)}</td>
+      <td>${hi(j[H.SERVICE]||j[H.STYPE]||'—',q)}</td>
+      <td>${hi(j[H.LOCATION]||'—',q)}</td>
+      <td>${hi(j[H.BRAND]||'—',q)}</td>
+      <td>${hi(j._techs.join(', ')||'—',q)}</td>
+      <td>${statusBadge(j[H.STATUS])}</td>
+      <td style="text-align:right">${fmtRev(j[H.REVENUE])||'—'}</td>
+    </tr>`).join('');
+}
+
+// ── MODAL ─────────────────────────────────────────────────
+function openModal(idx) {
+  const j = filteredJobs[idx];
+  $('mTitle').textContent = j[H.CUSTOMER]||'—';
+  $('mSub').innerHTML = `
+    <span>📅 ${esc(fmtDate(j[H.DATE]))}</span>
+    ${j[H.GROUP]?`<span>🏷️ ${esc(j[H.GROUP])}</span>`:''}
+    ${statusBadge(j[H.STATUS])}`;
+
+  const sec = (title, rows) => {
+    const valid = rows.filter(([,v])=>v&&v.trim()&&v!=='—'&&v!=='-');
+    if (!valid.length) return '';
+    return `<div class="msec"><h3>${title}</h3>${valid.map(([k,v])=>`<div class="mrow"><span class="mk">${esc(k)}</span><span class="mv">${esc(v)}</span></div>`).join('')}</div>`;
+  };
+
+  const techs = j._techs.length ? j._techs.join(', ') : (j[H.TECH]||'');
+
+  let unitsHtml = '';
+  if (j._units.length) {
+    const items = j._units.map((u,i)=>{
+      const brand=u[H.BRAND]||'', btu=u[H.BTU]||'', loc=u[H.INSTALL]||'', svc=u[H.SERVICE]||'', sum=u[H.SUMMARY]||'', qno=u[H.QUOTENO]||'';
+      const name = brand||svc||`เครื่องที่ ${i+1}`;
+      const sub  = [btu?btu+' BTU':'', loc, qno?'Q: '+qno:''].filter(Boolean).join(' · ');
+      return `<li class="unit-item">
+        <div class="unit-name">❄️ ${esc(name)}</div>
+        ${sub?`<div class="unit-sub">${esc(sub)}</div>`:''}
+        ${sum?`<div class="unit-detail">${esc(sum)}</div>`:''}
+      </li>`;
+    }).join('');
+    unitsHtml = `<div class="msec"><h3>❄️ รายการในงานนี้ (${j._units.length} เครื่อง)</h3><ul class="unit-list">${items}</ul></div>`;
+  }
+
+  $('mBody').innerHTML = [
+    sec('📋 ข้อมูลงาน', [
+      ['วันที่', fmtDate(j[H.DATE])],
+      ['อาการที่เสีย', j[H.PROBLEM]],
+      ['รายการบริการ', j[H.SERVICE]],
+      ['ประเภทบริการ', j[H.STYPE]],
+      ['รายละเอียด', j[H.DETAIL]],
+      ['งานที่ต้องทำต่อ', j[H.NEXT]],
+    ]),
+    sec('📍 สถานที่', [
+      ['สถานที่หน้างาน', j[H.LOCATION]],
+      ['CC', j[H.CC]],
+    ]),
+    sec('👷 ทีมช่าง', [
+      ['ช่างผู้ดูแล', techs],
+    ]),
+    unitsHtml,
+    sec('💰 การเงิน', [
+      ['รายได้', fmtRev(j[H.REVENUE]) ? fmtRev(j[H.REVENUE])+' บาท' : ''],
+      ['สถานะใบเก็บเงิน', j[H.BILL]],
+      ['Quotation NO.', j[H.QUOTENO]],
+      ['เงื่อนไขรับประกัน', j[H.WARRANTY] ? j[H.WARRANTY]+' เดือน' : ''],
+      ['วันหมดรับประกัน', fmtDate(j[H.WEXP])],
+      ['บริการอีกครั้งใน', j[H.NEXTMO] ? j[H.NEXTMO]+' เดือน' : ''],
+      ['วันนัดบริการต่อไป', fmtDate(j[H.NEXTDATE])],
+    ]),
+  ].join('');
+
+  $('moverlay').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){$('moverlay').classList.remove('on');document.body.style.overflow='';}
+
+// ── INIT ─────────────────────────────────────────────────
+async function init() {
+  $('cardList').innerHTML = `<div class="loading"><div class="spin"></div><span>กำลังโหลดข้อมูล...</span></div>`;
+  $('rcount').textContent = 'กำลังโหลด...';
+  try {
+    const raw = await fetchData();
+    allJobs   = groupJobs(raw);
+    searchIdx = allJobs.map(j=>{
+      const c = Object.values(j).filter(v=>!Array.isArray(v)).join(' ');
+      const u = (j._units||[]).map(u=>Object.values(u).join(' ')).join(' ');
+      return norm(c+' '+u);
+    });
+    populateDrop(allJobs);
+    applyFilter();
+  } catch(e) {
+    $('cardList').innerHTML = `<div class="empty"><div class="eico">⚠️</div><div style="color:var(--red)">โหลดข้อมูลไม่สำเร็จ</div><div style="font-size:13px;margin-top:8px">${esc(e.message)}</div></div>`;
+  }
+}
+
+// ── EVENTS ────────────────────────────────────────────────
+$('searchInput').addEventListener('input', ()=>{
+  clearTimeout(debTimer);
+  debTimer = setTimeout(()=>{
+    const v=$('searchInput').value;
+    $('clearBtn').classList.toggle('on', v.length>0);
+    applyFilter();
+  }, 280);
+});
+
+$('clearBtn').addEventListener('click', ()=>{
+  $('searchInput').value=''; $('clearBtn').classList.remove('on'); applyFilter();
+});
+
+document.querySelectorAll('.chip[data-f]').forEach(c=>{
+  c.addEventListener('click', ()=>{
+    document.querySelectorAll('.chip[data-f]').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on'); activeFilter=c.dataset.f; applyFilter();
+  });
+});
+
+$('advBtn').addEventListener('click', ()=>{
+  $('advBox').classList.toggle('on'); $('advBtn').classList.toggle('on');
+});
+
+['fDateFrom','fDateTo','fGroup','fTech','fBill'].forEach(id=>$(id).addEventListener('change', applyFilter));
+
+$('vCard').addEventListener('click', ()=>{
+  viewMode='card';
+  $('vCard').classList.add('on'); $('vTable').classList.remove('on');
+  $('cardList').style.display='flex'; $('tableWrap').style.display='none';
+  renderCards();
+});
+$('vTable').addEventListener('click', ()=>{
+  viewMode='table';
+  $('vTable').classList.add('on'); $('vCard').classList.remove('on');
+  $('cardList').style.display='none'; $('tableWrap').style.display='block';
+  renderTable();
+});
+
+$('refreshBtn').addEventListener('click', ()=>{ allJobs=[]; $('fGroup').innerHTML='<option value="">กลุ่มลูกค้า (ทั้งหมด)</option>'; $('fTech').innerHTML='<option value="">ช่างผู้ดูแล (ทั้งหมด)</option>'; $('fBill').innerHTML='<option value="">สถานะใบเก็บเงิน (ทั้งหมด)</option>'; init(); });
+
+$('moverlay').addEventListener('click', e=>{ if(e.target===$('moverlay')) closeModal(); });
+
+// Swipe down to close
+let _sy=0;
+$('modal').addEventListener('touchstart', e=>_sy=e.touches[0].clientY,{passive:true});
+$('modal').addEventListener('touchend',   e=>{ if(e.changedTouches[0].clientY-_sy>80) closeModal(); },{passive:true});
+
+init();
+</script>
+</body>
+</html>
