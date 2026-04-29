@@ -660,7 +660,10 @@ async function init() {
   $('rcount').textContent = 'กำลังโหลด...';
   try {
     const raw = await fetchData();
-    allJobs   = groupJobs(raw);
+    allJobs   = groupJobs(raw).sort((a,b)=>{
+      const da=parseDate(a[H.DATE]), db=parseDate(b[H.DATE]);
+      return (db?.getTime()||0)-(da?.getTime()||0);
+    });
     searchIdx = allJobs.map(j=>{
       const c = Object.values(j).filter(v=>!Array.isArray(v)).join(' ');
       const u = (j._units||[]).map(u=>Object.values(u).join(' ')).join(' ');
