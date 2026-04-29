@@ -185,6 +185,13 @@ tr:hover td{background:#F8FAFC;cursor:pointer}
 .unit-sub{font-size:12px;color:var(--gray);line-height:1.4}
 .unit-detail{font-size:12px;color:var(--text2);margin-top:4px;padding-top:4px;border-top:1px solid var(--border);line-height:1.5}
 
+/* units inline on card */
+.units-inline{padding:0 14px 10px;display:flex;flex-direction:column;gap:6px}
+.unit-inline{background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:7px 10px}
+.ui-name{font-size:13px;font-weight:600;color:var(--text)}
+.ui-sub{font-size:11px;color:var(--gray);margin-top:2px}
+.ui-detail{font-size:12px;color:var(--text2);margin-top:4px;padding-top:4px;border-top:1px solid var(--border);line-height:1.5}
+
 /* highlight */
 mark{background:#FEF08A;color:#78350F;border-radius:2px;padding:0 1px;font-weight:700}
 
@@ -520,8 +527,20 @@ function renderCards() {
   let html = data.map((j,idx)=>{
     const techs = j._techs.length ? j._techs.join(', ') : (j[H.TECH]||'');
     const rev   = fmtRev(j[H.REVENUE]);
-    const unitCount = j._units.length;
-    return `<div class="jcard ${sClass(j[H.STATUS])}" onclick="openModal(${filteredJobs.indexOf(j)})">
+
+    // units list inline
+    const unitsHtml = j._units.length ? j._units.map((u,i)=>{
+      const brand=u[H.BRAND]||'', btu=u[H.BTU]||'', loc=u[H.INSTALL]||'', svc=u[H.SERVICE]||'', sum=u[H.SUMMARY]||'', qno=u[H.QUOTENO]||'';
+      const name = brand||svc||`เครื่องที่ ${i+1}`;
+      const sub  = [btu?btu+' BTU':'', loc, qno?'Q:'+qno:''].filter(Boolean).join(' · ');
+      return `<div class="unit-inline">
+        <div class="ui-name">❄️ ${hi(name,q)}</div>
+        ${sub?`<div class="ui-sub">${esc(sub)}</div>`:''}
+        ${sum?`<div class="ui-detail">${hi(sum,q)}</div>`:''}
+      </div>`;
+    }).join('') : '';
+
+    return `<div class="jcard ${sClass(j[H.STATUS])}">
       <div class="jcard-top">
         <div class="jcard-chips">
           ${j[H.DATE]?`<span class="jcard-date">📅 ${hi(j[H.DATE],q)}</span>`:''}
@@ -533,10 +552,14 @@ function renderCards() {
         ${j[H.PROBLEM]?`<div class="jrow"><span class="ico">⚠️</span><span class="txt">${hi(j[H.PROBLEM],q)}</span></div>`:''}
         ${j[H.SERVICE]||j[H.STYPE]?`<div class="jrow"><span class="ico">🔩</span><span class="txt">${hi(j[H.SERVICE]||j[H.STYPE],q)}</span></div>`:''}
         ${j[H.LOCATION]?`<div class="jrow"><span class="ico">📍</span><span class="txt dim">${hi(j[H.LOCATION],q)}</span></div>`:''}
-        ${techs?`<div class="jrow"><span class="ico">👷</span><span class="txt dim">ช่าง: ${hi(techs,q)}${unitCount>1?' · '+unitCount+' เครื่อง':''}</span></div>`:''}
+        ${techs?`<div class="jrow"><span class="ico">👷</span><span class="txt dim">ช่าง: ${hi(techs,q)}</span></div>`:''}
+        ${j[H.DETAIL]?`<div class="jrow"><span class="ico">🔧</span><span class="txt">${hi(j[H.DETAIL],q)}</span></div>`:''}
+        ${j[H.NEXT]?`<div class="jrow"><span class="ico">➡️</span><span class="txt dim">ทำต่อ: ${hi(j[H.NEXT],q)}</span></div>`:''}
       </div>
+      ${unitsHtml?`<div class="units-inline">${unitsHtml}</div>`:''}
       <div class="jcard-foot">
         ${statusBadge(j[H.STATUS])}
+        ${j[H.BILL]?`<span style="font-size:12px;color:var(--gray)">${esc(j[H.BILL])}</span>`:''}
         ${rev?`<span class="rev">${rev} บ.</span>`:''}
       </div>
     </div>`;
