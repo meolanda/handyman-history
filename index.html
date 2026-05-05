@@ -248,7 +248,7 @@ mark{background:#FEF08A;color:#78350F;border-radius:2px;padding:0 1px;font-weigh
   <input type="date" id="fDateTo" title="ถึงวันที่">
   <select id="fGroup"><option value="">กลุ่มลูกค้า (ทั้งหมด)</option></select>
   <select id="fTech"><option value="">ช่างผู้ดูแล (ทั้งหมด)</option></select>
-  <select id="fBill"><option value="">สถานะใบเก็บเงิน (ทั้งหมด)</option></select>
+  <select id="fNext"><option value="">งานที่ต้องทำต่อ (ทั้งหมด)</option></select>
 </div>
 
 <!-- STATS -->
@@ -467,12 +467,12 @@ async function fetchData() {
 function populateDrop(jobs) {
   const groups=[...new Set(jobs.map(j=>j[H.GROUP]).filter(Boolean))].sort();
   const techs =[...new Set(jobs.flatMap(j=>j._techs).filter(Boolean))].sort();
-  const bills =[...new Set(jobs.map(j=>j[H.BILL]).filter(Boolean))].sort();
+  const nexts =[...new Set(jobs.map(j=>j[H.NEXT]).filter(Boolean))].sort();
 
-  const gs=$('fGroup'), ts=$('fTech'), bs=$('fBill');
+  const gs=$('fGroup'), ts=$('fTech'), ns=$('fNext');
   groups.forEach(v=>gs.innerHTML+=`<option value="${esc(v)}">${esc(v)}</option>`);
   techs.forEach(v=>ts.innerHTML+=`<option value="${esc(v)}">${esc(v)}</option>`);
-  bills.forEach(v=>bs.innerHTML+=`<option value="${esc(v)}">${esc(v)}</option>`);
+  nexts.forEach(v=>ns.innerHTML+=`<option value="${esc(v)}">${esc(v)}</option>`);
 }
 
 // ── FILTER ────────────────────────────────────────────────
@@ -482,7 +482,7 @@ function applyFilter() {
   const dto  = $('fDateTo').value;
   const grp  = $('fGroup').value;
   const tech = $('fTech').value;
-  const bill = $('fBill').value;
+  const next = $('fNext').value;
 
   filteredJobs = allJobs.filter((j,i) => {
     // chip
@@ -500,7 +500,7 @@ function applyFilter() {
     }
     if (grp  && j[H.GROUP]!==grp) return false;
     if (tech && !j._techs.includes(tech)) return false;
-    if (bill && j[H.BILL]!==bill) return false;
+    if (next && j[H.NEXT]!==next) return false;
     return true;
   });
 
@@ -708,7 +708,7 @@ $('advBtn').addEventListener('click', ()=>{
   $('advBox').classList.toggle('on'); $('advBtn').classList.toggle('on');
 });
 
-['fDateFrom','fDateTo','fGroup','fTech','fBill'].forEach(id=>$(id).addEventListener('change', applyFilter));
+['fDateFrom','fDateTo','fGroup','fTech','fNext'].forEach(id=>$(id).addEventListener('change', applyFilter));
 
 $('vCard').addEventListener('click', ()=>{
   viewMode='card';
@@ -723,7 +723,7 @@ $('vTable').addEventListener('click', ()=>{
   renderTable();
 });
 
-$('refreshBtn').addEventListener('click', ()=>{ allJobs=[]; $('fGroup').innerHTML='<option value="">กลุ่มลูกค้า (ทั้งหมด)</option>'; $('fTech').innerHTML='<option value="">ช่างผู้ดูแล (ทั้งหมด)</option>'; $('fBill').innerHTML='<option value="">สถานะใบเก็บเงิน (ทั้งหมด)</option>'; init(); });
+$('refreshBtn').addEventListener('click', ()=>{ allJobs=[]; $('fGroup').innerHTML='<option value="">กลุ่มลูกค้า (ทั้งหมด)</option>'; $('fTech').innerHTML='<option value="">ช่างผู้ดูแล (ทั้งหมด)</option>'; $('fNext').innerHTML='<option value="">งานที่ต้องทำต่อ (ทั้งหมด)</option>'; init(); });
 
 $('moverlay').addEventListener('click', e=>{ if(e.target===$('moverlay')) closeModal(); });
 
