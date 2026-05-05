@@ -280,7 +280,7 @@ mark{background:#FEF08A;color:#78350F;border-radius:2px;padding:0 1px;font-weigh
       <tr>
         <th>วันที่</th><th>ลูกค้า</th><th>รายการบริการ</th>
         <th>สถานที่</th><th>ยี่ห้อ-รุ่น</th>
-        <th>ช่างผู้ดูแล</th><th>สถานะ</th><th style="text-align:right">รายได้ (บ.)</th>
+        <th>ช่างผู้ดูแล</th><th>งานที่ต้องทำต่อ</th><th>สถานะ</th><th style="text-align:right">รายได้ (บ.)</th>
       </tr>
     </thead>
     <tbody id="tBody"></tbody>
@@ -488,9 +488,9 @@ function applyFilter() {
     // chip
     if (activeFilter==='จบ') { const s=norm(j[H.STATUS]); if(!s.includes('จบ')||s.includes('ไม่จบ')) return false; }
     if (activeFilter==='ไม่จบ') { const s=norm(j[H.STATUS]); if(s.includes('จบ')&&!s.includes('ไม่จบ')) return false; }
-    if (activeFilter==='pm') { const sv=norm((j[H.SERVICE]||'')+(j[H.STYPE]||'')); if(!sv.includes('pm')&&!sv.includes('preventive')) return false; }
-    if (activeFilter==='ซ่อม') { const sv=norm((j[H.SERVICE]||'')+(j[H.STYPE]||'')); if(!sv.includes('ซ่อม')&&!sv.includes('repair')) return false; }
-    if (activeFilter==='ติดตั้ง') { const sv=norm((j[H.SERVICE]||'')+(j[H.STYPE]||'')); if(!sv.includes('ติดตั้ง')&&!sv.includes('install')) return false; }
+    if (activeFilter==='pm') { const sv=norm((j[H.STYPE]||'')+(j._units||[]).map(u=>u[H.SERVICE]||'').join(' ')); if(!sv.includes('pm')&&!sv.includes('preventive')) return false; }
+    if (activeFilter==='ซ่อม') { const sv=norm((j[H.STYPE]||'')+(j._units||[]).map(u=>u[H.SERVICE]||'').join(' ')); if(!sv.includes('ซ่อม')&&!sv.includes('repair')) return false; }
+    if (activeFilter==='ติดตั้ง') { const sv=norm((j[H.STYPE]||'')+(j._units||[]).map(u=>u[H.SERVICE]||'').join(' ')); if(!sv.includes('ติดตั้ง')&&!sv.includes('install')) return false; }
     // search
     if (q && !searchIdx[i].includes(q)) return false;
     // date
@@ -578,7 +578,7 @@ function renderCards() {
 function renderTable() {
   const tb = $('tBody');
   if (!filteredJobs.length) {
-    tb.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--muted)">ไม่พบข้อมูล</td></tr>`;
+    tb.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--muted)">ไม่พบข้อมูล</td></tr>`;
     return;
   }
   const q = $('searchInput').value;
@@ -590,6 +590,7 @@ function renderTable() {
       <td>${hi(j[H.LOCATION]||'—',q)}</td>
       <td>${hi(j[H.BRAND]||'—',q)}</td>
       <td>${hi(j._techs.join(', ')||'—',q)}</td>
+      <td>${hi(j[H.NEXT]||'—',q)}</td>
       <td>${statusBadge(j[H.STATUS])}</td>
       <td style="text-align:right">${fmtRev(j[H.REVENUE])||'—'}</td>
     </tr>`).join('');
