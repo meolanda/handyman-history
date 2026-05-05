@@ -496,7 +496,7 @@ function applyFilter() {
     // date
     if (dfrom||dto) {
       const d=parseDate(j[H.DATE]);
-      if (d) { if(dfrom&&d<new Date(dfrom)) return false; if(dto&&d>new Date(dto+'T23:59:59')) return false; }
+      if (d) { if(dfrom&&d<new Date(dfrom+'T00:00:00')) return false; if(dto&&d>new Date(dto+'T23:59:59')) return false; }
     }
     if (grp  && j[H.GROUP]!==grp) return false;
     if (tech && !j._techs.includes(tech)) return false;
