@@ -249,6 +249,7 @@ mark{background:#FEF08A;color:#78350F;border-radius:2px;padding:0 1px;font-weigh
   <select id="fGroup"><option value="">กลุ่มลูกค้า (ทั้งหมด)</option></select>
   <select id="fTech"><option value="">ช่างผู้ดูแล (ทั้งหมด)</option></select>
   <select id="fNext"><option value="">งานที่ต้องทำต่อ (ทั้งหมด)</option></select>
+  <select id="fStatus"><option value="">สถานะงาน (ทั้งหมด)</option></select>
 </div>
 
 <!-- STATS -->
@@ -467,12 +468,14 @@ async function fetchData() {
 function populateDrop(jobs) {
   const groups=[...new Set(jobs.map(j=>j[H.GROUP]).filter(Boolean))].sort();
   const techs =[...new Set(jobs.flatMap(j=>j._techs).filter(Boolean))].sort();
-  const nexts =[...new Set(jobs.map(j=>j[H.NEXT]).filter(Boolean))].sort();
+  const nexts   =[...new Set(jobs.map(j=>j[H.NEXT]).filter(Boolean))].sort();
+  const statuses=[...new Set(jobs.map(j=>j[H.STATUS]).filter(Boolean))].sort();
 
-  const gs=$('fGroup'), ts=$('fTech'), ns=$('fNext');
+  const gs=$('fGroup'), ts=$('fTech'), ns=$('fNext'), ss=$('fStatus');
   groups.forEach(v=>gs.innerHTML+=`<option value="${esc(v)}">${esc(v)}</option>`);
   techs.forEach(v=>ts.innerHTML+=`<option value="${esc(v)}">${esc(v)}</option>`);
   nexts.forEach(v=>ns.innerHTML+=`<option value="${esc(v)}">${esc(v)}</option>`);
+  statuses.forEach(v=>ss.innerHTML+=`<option value="${esc(v)}">${esc(v)}</option>`);
 }
 
 // ── FILTER ────────────────────────────────────────────────
@@ -482,7 +485,8 @@ function applyFilter() {
   const dto  = $('fDateTo').value;
   const grp  = $('fGroup').value;
   const tech = $('fTech').value;
-  const next = $('fNext').value;
+  const next   = $('fNext').value;
+  const status = $('fStatus').value;
 
   filteredJobs = allJobs.filter((j,i) => {
     // chip
@@ -500,7 +504,8 @@ function applyFilter() {
     }
     if (grp  && j[H.GROUP]!==grp) return false;
     if (tech && !j._techs.includes(tech)) return false;
-    if (next && j[H.NEXT]!==next) return false;
+    if (next   && j[H.NEXT]!==next) return false;
+    if (status && j[H.STATUS]!==status) return false;
     return true;
   });
 
@@ -708,7 +713,7 @@ $('advBtn').addEventListener('click', ()=>{
   $('advBox').classList.toggle('on'); $('advBtn').classList.toggle('on');
 });
 
-['fDateFrom','fDateTo','fGroup','fTech','fNext'].forEach(id=>$(id).addEventListener('change', applyFilter));
+['fDateFrom','fDateTo','fGroup','fTech','fNext','fStatus'].forEach(id=>$(id).addEventListener('change', applyFilter));
 
 $('vCard').addEventListener('click', ()=>{
   viewMode='card';
@@ -723,7 +728,7 @@ $('vTable').addEventListener('click', ()=>{
   renderTable();
 });
 
-$('refreshBtn').addEventListener('click', ()=>{ allJobs=[]; $('fGroup').innerHTML='<option value="">กลุ่มลูกค้า (ทั้งหมด)</option>'; $('fTech').innerHTML='<option value="">ช่างผู้ดูแล (ทั้งหมด)</option>'; $('fNext').innerHTML='<option value="">งานที่ต้องทำต่อ (ทั้งหมด)</option>'; init(); });
+$('refreshBtn').addEventListener('click', ()=>{ allJobs=[]; $('fGroup').innerHTML='<option value="">กลุ่มลูกค้า (ทั้งหมด)</option>'; $('fTech').innerHTML='<option value="">ช่างผู้ดูแล (ทั้งหมด)</option>'; $('fNext').innerHTML='<option value="">งานที่ต้องทำต่อ (ทั้งหมด)</option>'; $('fStatus').innerHTML='<option value="">สถานะงาน (ทั้งหมด)</option>'; init(); });
 
 $('moverlay').addEventListener('click', e=>{ if(e.target===$('moverlay')) closeModal(); });
 
